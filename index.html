@@ -53,6 +53,23 @@
     .-translate-x-full {
       transform: translateX(-100%);
     }
+
+    .lang-item.selected .border-gray-300 {
+      border-color: #570080 !important;
+      background: #570080;
+      position: relative;
+    }
+
+    .lang-item.selected .border-gray-300::after {
+      content: "✓";
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -482,6 +499,65 @@
       <div class="accordion-content max-h-0 px-4 overflow-hidden transition-all duration-300">
         <p class="py-2 pl-2 text-gray-700">FAQs</p>
         <p class="py-2 pl-2 mt-3 text-gray-700">support@coin12.com</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Language Selector Modal -->
+  <div id="language-modal" class="fixed inset-0 z-[40] hidden">
+    <!-- Overlay -->
+    <div id="lang-overlay" class="bg-opacity-40 absolute inset-0 transition-opacity bg-black"></div>
+
+    <!-- Modal Panel - Slide Up -->
+    <div id="lang-panel"
+      class="absolute bottom-0 left-0 right-0 bg-[#fafafa] rounded-t-3xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out max-h-[80vh] overflow-y-auto">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between px-4 py-3 h-[18.13vw] border-b border-[#f3f0f4]">
+        <h3 class="font-semibold text-gray-900">Ngôn ngữ</h3>
+        <button id="close-lang" class="hover:text-gray-700 text-gray-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Danh sách ngôn ngữ -->
+      <div class="pb-8">
+        <div class="space-y-1">
+
+          <!-- English -->
+          <button
+            class="lang-item h-[18.13vw] hover:bg-gray-50 flex items-center w-full gap-4 px-4 py-4 transition-colors">
+            <div class="flex-1 text-left">
+              <p class="font-semibold text-gray-900">English</p>
+            </div>
+            <!-- Không có icon -->
+          </button>
+
+          <!-- Tiếng Việt - HIỆN TÍCH XANH -->
+          <button
+            class="lang-item h-[18.13vw] hover:bg-gray-50 flex items-center w-full gap-4 px-4 py-4 transition-colors">
+            <div class="flex-1 text-left">
+              <p class="font-semibold text-gray-900">Tiếng Việt</p>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6 text-[#630c92] font-medium">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+          </button>
+
+          <!-- ภาษาไทย -->
+          <button
+            class="lang-item h-[18.13vw] hover:bg-gray-50 flex items-center w-full gap-4 px-4 py-4 transition-colors">
+            <div class="flex-1 text-left">
+              <p class="font-semibold text-gray-900">ภาษาไทย</p>
+            </div>
+            <!-- Không có icon -->
+          </button>
+
+        </div>
       </div>
     </div>
   </div>
@@ -1303,8 +1379,45 @@
       }
     });
 
+    // Language Modal Controls
+    const langButton = document.querySelector('.icon-language');
+    const langModal = document.getElementById('language-modal');
+    const langPanel = document.getElementById('lang-panel');
+    const closeLang = document.getElementById('close-lang');
+    const langOverlay = document.getElementById('lang-overlay');
+
+    // Mở modal
+    langButton?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langModal.classList.remove('hidden');
+      setTimeout(() => {
+        langPanel.classList.remove('translate-y-full');
+        langPanel.classList.add('translate-y-0.5');
+      }, 10);
+    });
+
+    // Đóng modal
+    const closeLangModal = () => {
+      langPanel.classList.remove('translate-y-0.5');
+      langPanel.classList.add('translate-y-full');
+      setTimeout(() => {
+        langModal.classList.add('hidden');
+      }, 300);
+    };
+
+    closeLang?.addEventListener('click', closeLangModal);
+    langOverlay?.addEventListener('click', closeLangModal);
+
+    // Đóng khi nhấn Esc
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !langModal.classList.contains('hidden')) {
+        closeLangModal();
+      }
+    });
+
     renderP2PList();
   </script>
+
 </body>
 
 </html>
