@@ -45,12 +45,74 @@
     body {
       font-family: "Roboto", sans-serif;
     }
+
+    .translate-x-0 {
+      transform: translateX(0);
+    }
+
+    .-translate-x-full {
+      transform: translateX(-100%);
+    }
+
+    .lang-item.selected .border-gray-300 {
+      border-color: #570080 !important;
+      background: #570080;
+      position: relative;
+    }
+
+    .lang-item.selected .border-gray-300::after {
+      content: "✓";
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .radio-custom {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      background: white;
+    }
+
+    .radio-custom::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: #570080;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.2s ease;
+    }
+
+    .peer:checked+.radio-custom {
+      border-color: #570080;
+      background: #faf5ff;
+    }
+
+    .peer:checked+.radio-custom::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .peer:focus-visible+.radio-custom {
+      box-shadow: 0 0 0 3px rgba(87, 0, 128, 0.2);
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="relative">
-  <header class="lg:bg-primary bg-white fixed top-0 left-0 z-[1] lg:relative w-full">
+  <header class="lg:bg-primary bg-white sticky top-0 left-0 z-[1] w-full">
     <div
       class="h-16 flex lg:gap-12 flex-row px-2 sm:px-4 lg:px-4 xl:px-0 justify-between max-w-[1332px] items-center mx-auto">
       <div class="relative">
@@ -91,7 +153,7 @@
             <div class="base-button--content whitespace-nowrap">Đăng ký</div>
           </a>
           <button
-            class="lg:hidden h-9 w-9 flex items-center justify-center p-1 text-sm leading-5 text-black rounded-full">
+            class="lg:hidden h-9 w-9 btn-menu flex items-center justify-center p-1 text-sm leading-5 text-black rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -102,30 +164,68 @@
     </div>
   </header>
 
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-drawer" class="fixed inset-0 z-50 hidden">
+    <!-- Overlay -->
+    <div class="absolute inset-0 transition-opacity bg-black bg-opacity-50" id="drawer-overlay"></div>
+
+    <!-- Drawer Panel -->
+    <div id="drawer-panel"
+      class="absolute top-0 left-0 w-full h-full transition-transform duration-300 ease-in-out transform -translate-x-full bg-white shadow-xl">
+      <div class="flex items-center justify-between p-4">
+        <img src="https://coin12.com/assets/images/common/logo.svg" alt="logo" class="w-[20.8vw]">
+        <button id="close-drawer" class="hover:text-gray-700 text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <nav class="px-4">
+        <p class="ml-3 text-xs text-[#9395ae] font-medium leading-6">Truy cập nhanh</p>
+        <ul class="mt-1 space-y-3">
+          <li class="w-1/2">
+            <a href="/"
+              class="hover:text-primary flex items-center gap-2 p-3 hover:bg-[#ebe6fe] rounded-md hover:text-[#570080] text-[15px]">
+              <img data-v-07271056="" data-v-23f389be=""
+                src="https://coin12.com/assets/images/components/desktop/user/quick-link-item.svg" alt="" width="auto"
+                height="auto" class="dropdown-account__menu-img">
+              <span>
+                Email hỗ trợ
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
   <div
     class="bg-contain lg:bg-cover bg-center bg-no-repeat py-[10px] relative w-full lg:bg-[url('https://coin12.com/assets/images/components/desktop/home/hero-banner-latest.png')]">
-    <div class="px-2 sm:px-4 lg:px-4 xl:px-0 max-w-[1332px] mx-auto hidden lg:block">
-      <p class="text-title text-[28px] font-medium my-5">Mua, Bán KDG Và USDT <span
-          style="font-weight: 700; background: linear-gradient(138deg, #BB00F0 14.71%, #73009D 86.02%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Siêu
-          Nhanh, An Toàn</span> Và <span
-          style="font-weight: 700; background: linear-gradient(138deg, #BB00F0 14.71%, #73009D 86.02%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Hoàn
-          Toàn Miễn Phí</span></p>
+    <div class="">
+      <div class="px-2 sm:px-4 lg:px-4 xl:px-0 max-w-[1332px] mx-auto hidden lg:block">
+        <p class="text-title text-[28px] font-medium my-5">Mua, Bán KDG Và USDT <span
+            style="font-weight: 700; background: linear-gradient(138deg, #BB00F0 14.71%, #73009D 86.02%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Siêu
+            Nhanh, An Toàn</span> Và <span
+            style="font-weight: 700; background: linear-gradient(138deg, #BB00F0 14.71%, #73009D 86.02%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Hoàn
+            Toàn Miễn Phí</span></p>
 
-      <div class="flex items-center gap-8 mb-5">
-        <div class="description flex items-center gap-5"><img
-            src="https://coin12.com/assets/images/components/desktop/home/icon-fee.svg" alt="security" width="auto"
-            height="auto" class="icon-fee w-[37px] h-[30px]">
-          <p class="info-1 w-[95px] mb-0">Phí giao dịch bằng 0.</p>
-        </div>
-        <div class="description flex items-center gap-5"><img
-            src="https://coin12.com/assets/images/components/desktop/home/icon-withdraw.svg" alt="security" width="auto"
-            height="auto" class="icon-withdraw w-[40px] h-[32px]">
-          <p class="info-2 w-[137px] mb-0">Rút tiền nhanh gọn, không xét duyệt.</p>
-        </div>
-        <div class="description flex items-center gap-5"><img
-            src="https://coin12.com/assets/images/components/desktop/home/icon-key.svg" alt="security" width="auto"
-            height="auto" class="icon-key w-[32px] h-[32px]">
-          <p class="info-3 w-[225px] mb-0">Xác minh số điện thoại để giao dịch nhanh, không cần KYC</p>
+        <div class="flex items-center gap-8 mb-5">
+          <div class="description flex items-center gap-5"><img
+              src="https://coin12.com/assets/images/components/desktop/home/icon-fee.svg" alt="security" width="auto"
+              height="auto" class="icon-fee w-[37px] h-[30px]">
+            <p class="info-1 w-[95px] mb-0">Phí giao dịch bằng 0.</p>
+          </div>
+          <div class="description flex items-center gap-5"><img
+              src="https://coin12.com/assets/images/components/desktop/home/icon-withdraw.svg" alt="security"
+              width="auto" height="auto" class="icon-withdraw w-[40px] h-[32px]">
+            <p class="info-2 w-[137px] mb-0">Rút tiền nhanh gọn, không xét duyệt.</p>
+          </div>
+          <div class="description flex items-center gap-5"><img
+              src="https://coin12.com/assets/images/components/desktop/home/icon-key.svg" alt="security" width="auto"
+              height="auto" class="icon-key w-[32px] h-[32px]">
+            <p class="info-3 w-[225px] mb-0">Xác minh số điện thoại để giao dịch nhanh, không cần KYC</p>
+          </div>
         </div>
       </div>
     </div>
@@ -167,13 +267,20 @@
               </a></li>
           </div>
         </div>
+
         <div class="right lg:hidden flex mt-5">
-          <img src="https://coin12.com/assets/images/components/mobile/home/icon-sort.svg" alt="sort" width="auto"
-            height="auto" class="sort ml-0 max-w-[5.6vw]">
-          <img src="https://coin12.com/assets/images/components/mobile/home/refresh.svg" alt="refresh" width="auto"
-            height="auto" class="refresh ml-5 max-w-[5.6vw]">
-          <img src="https://coin12.com/assets/images/components/mobile/home/filter.svg" alt="filter" width="auto"
-            height="auto" class="filter ml-5 max-w-[5.6vw]">
+          <div id="open-sort" class="cursor-pointer">
+            <img src="https://coin12.com/assets/images/components/mobile/home/icon-sort.svg" alt="sort"
+              class="max-w-[5.6vw]">
+          </div>
+          <div id="open-refresh" class="ml-5 cursor-pointer">
+            <img src="https://coin12.com/assets/images/components/mobile/home/refresh.svg" alt="refresh"
+              class="max-w-[5.6vw]">
+          </div>
+          <div id="open-filter" class="ml-5 cursor-pointer">
+            <img src="https://coin12.com/assets/images/components/mobile/home/filter.svg" alt="filter"
+              class="max-w-[5.6vw]">
+          </div>
         </div>
       </div>
     </div>
@@ -278,27 +385,28 @@
       <div class="pagination-custom ">
         <ul role="menubar" aria-disabled="false" aria-label="Pagination"
           class="pagination b-pagination flex pl-0 m-0 list-none rounded">
-          <li role="presentation" aria-hidden="true" class="page-item disabled cursor-not-allowed"><span role="menuitem"
-              aria-label="Go to first page" aria-disabled="true"
+          <li role="presentation" aria-hidden="true" class="page-item disabled hover:bg-gray-200 cursor-pointer"><span
+              role="menuitem" aria-label="Go to first page" aria-disabled="true"
               class="page-link flex items-center border border-[#f4f4f5] text-[#18181b] text-sm font-medium h-full justify-center leading-5 p-[0.5rem_0.75rem] relative"><span><img
                   src="https://coin12.com/assets/images/common/icon-next-left-disable.svg" alt="empty" width="auto"
                   height="auto"></span></span></li>
-          <li role="presentation" aria-hidden="true" class="page-item disabled cursor-not-allowed"><span role="menuitem"
-              aria-label="Go to previous page" aria-disabled="true"
+          <li role="presentation" aria-hidden="true" class="page-item disabled hover:bg-gray-200 cursor-pointer"><span
+              role="menuitem" aria-label="Go to previous page" aria-disabled="true"
               class="page-link flex items-center border border-[#f4f4f5] text-[#18181b] text-sm font-medium h-full justify-center leading-5 p-[0.5rem_0.75rem] relative"><span><img
                   src="https://coin12.com/assets/images/common/icon-arrow-left-disable.svg" alt="empty" width="auto"
                   height="auto"></span></span></li>
-          <li role="presentation" class="page-item active cursor-not-allowed"><button role="menuitemradio" type="button"
-              aria-label="Go to page 1" aria-checked="true" aria-posinset="1" aria-setsize="1" tabindex="0"
+          <li role="presentation" class="page-item active hover:bg-gray-200 cursor-pointer"><button role="menuitemradio"
+              type="button" aria-label="Go to page 1" aria-checked="true" aria-posinset="1" aria-setsize="1"
+              tabindex="0"
               class="page-link flex items-center border border-[#f4f4f5] text-[#18181b] text-sm font-medium h-full justify-center leading-5 p-[0.5rem_0.75rem] relative text-[#ff9d00] bg-[#fef8e0]">1</button>
           </li>
-          <li role="presentation" aria-hidden="true" class="page-item disabled cursor-not-allowed"><span role="menuitem"
-              aria-label="Go to next page" aria-disabled="true"
+          <li role="presentation" aria-hidden="true" class="page-item disabled hover:bg-gray-200 cursor-pointer"><span
+              role="menuitem" aria-label="Go to next page" aria-disabled="true"
               class="page-link flex items-center border border-[#f4f4f5] text-[#18181b] text-sm font-medium h-full justify-center leading-5 p-[0.5rem_0.75rem] relative"><span><img
                   src="https://coin12.com/assets/images/common/icon-arrow-right-disable.svg" alt="empty" width="auto"
                   height="auto"></span></span></li>
-          <li role="presentation" aria-hidden="true" class="page-item disabled cursor-not-allowed"><span role="menuitem"
-              aria-label="Go to last page" aria-disabled="true"
+          <li role="presentation" aria-hidden="true" class="page-item disabled hover:bg-gray-200 cursor-pointer"><span
+              role="menuitem" aria-label="Go to last page" aria-disabled="true"
               class="page-link flex items-center border border-[#f4f4f5] text-[#18181b] text-sm font-medium h-full justify-center leading-5 p-[0.5rem_0.75rem] relative"><span><img
                   src="https://coin12.com/assets/images/common/icon-next-right-disable.svg" alt="empty" width="auto"
                   height="auto"></span></span></li>
@@ -439,9 +547,219 @@
     </div>
   </div>
 
+  <!-- Language Selector Modal -->
+  <div id="language-modal" class="fixed inset-0 z-[40] hidden">
+    <!-- Overlay -->
+    <div id="lang-overlay" class="bg-opacity-40 absolute inset-0 transition-opacity bg-black"></div>
+
+    <!-- Modal Panel - Slide Up -->
+    <div id="lang-panel"
+      class="absolute bottom-0 left-0 right-0 bg-[#fafafa] rounded-t-2xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out max-h-[80vh] overflow-y-auto">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between px-4 py-3 h-[18.13vw] border-b border-[#f3f0f4]">
+        <h3 class="font-semibold text-gray-900">Ngôn ngữ</h3>
+        <button id="close-lang" class="hover:text-gray-700 text-gray-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Danh sách ngôn ngữ -->
+      <div class="pb-8">
+        <div class="space-y-1">
+
+          <!-- English -->
+          <button
+            class="lang-item h-[18.13vw] hover:bg-gray-50 flex items-center w-full gap-4 px-4 py-4 transition-colors">
+            <div class="flex-1 text-left">
+              <p class="font-semibold text-gray-900">English</p>
+            </div>
+            <!-- Không có icon -->
+          </button>
+
+          <!-- Tiếng Việt - HIỆN TÍCH XANH -->
+          <button
+            class="lang-item h-[18.13vw] hover:bg-gray-50 flex items-center w-full gap-4 px-4 py-4 transition-colors">
+            <div class="flex-1 text-left">
+              <p class="font-semibold text-gray-900">Tiếng Việt</p>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6 text-[#630c92] font-medium">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+          </button>
+
+          <!-- ภาษาไทย -->
+          <button
+            class="lang-item h-[18.13vw] hover:bg-gray-50 flex items-center w-full gap-4 px-4 py-4 transition-colors">
+            <div class="flex-1 text-left">
+              <p class="font-semibold text-gray-900">ภาษาไทย</p>
+            </div>
+            <!-- Không có icon -->
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Sort, Refresh, Filter Modals -->
+
+  <!-- 1. SORT MODAL (ĐÃ SỬA LỖI) -->
+  <div id="sort-modal" class="fixed inset-0 z-[40] hidden">
+    <div id="sort-overlay" class="bg-opacity-40 absolute inset-0 bg-black"></div>
+    <div id="sort-panel"
+      class="absolute bottom-0 left-0 right-0 bg-[#fafafa] rounded-t-2xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between px-4 pt-5 pb-5 border-b border-gray-200">
+        <h3 class="text-base font-bold text-gray-900">Sắp xếp theo</h3>
+        <button id="close-sort" class="hover:text-gray-700 text-gray-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="pb-8 space-y-0" id="sort-options">
+        <button
+          class="border-b border-gray-200 sort-option w-full text-left px-4 py-4 bg-[#f4e4f3] text-gray-700  text-sm">Mặc
+          định</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Giá</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Số
+          lượng giao
+          dịch</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Tỉ
+          lệ hoàn
+          tất</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Đánh
+          giá tích
+          cực</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Thời
+          gian
+          hoàn tất</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Nhà
+          quảng cáo
+          trực tuyến</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. REFRESH MODAL (ĐÃ SỬA LỖI) -->
+  <div id="refresh-modal" class="fixed inset-0 z-[40] hidden">
+    <div id="refresh-overlay" class="bg-opacity-40 absolute inset-0 bg-black"></div>
+    <div id="refresh-panel"
+      class="rounded-t-2xl absolute bottom-0 left-0 right-0 transition-transform duration-300 ease-out transform translate-y-full bg-[#fafafa] shadow-2xl">
+      <div class="flex items-center justify-between px-4 pt-5 pb-5 border-b border-gray-200">
+        <h3 class="text-base font-bold text-gray-900">Làm mới</h3>
+        <button id="close-refresh" class="hover:text-gray-700 text-gray-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="pb-8 space-y-0" id="refresh-options">
+        <button
+          class="refresh-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">
+          Ngay lập tức
+        </button>
+        <button
+          class="refresh-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">
+          Mỗi 5s
+        </button>
+        <button
+          class="refresh-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">
+          Mỗi 10s
+        </button>
+        <button
+          class="refresh-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">
+          Mỗi 30s
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. FILTER MODAL – RADIO BUTTON CUSTOM #570080 -->
+  <div id="filter-modal" class="fixed inset-0 z-[40] hidden">
+    <div id="filter-overlay" class="bg-opacity-40 absolute inset-0 bg-black"></div>
+    <div id="filter-panel"
+      class="absolute bottom-0 left-0 right-0 bg-[#fafafa] rounded-t-2xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between px-4 pt-4 pb-5 border-b border-gray-200">
+        <h3 class="text-base font-bold text-gray-900">Bộ lọc</h3>
+        <button id="close-filter" class="hover:text-gray-700 text-gray-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="px-3 py-5 space-y-6">
+
+        <!-- 1. Số lượng – VND + Icon bên phải -->
+        <div class="search-amount">
+          <label class="block mb-2 text-xs text-gray-700">Số lượng</label>
+          <div class="base-input__wrap relative">
+            <input type="tel" placeholder="Nhập số lượng" maxlength="15"
+              class="w-full pl-4 pr-16 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#570080] focus:ring-2 focus:ring-purple-200 text-left"
+              style="direction: rtl;">
+
+            <!-- Icon tìm kiếm -->
+            <img src="https://coin12.com/assets/images/components/desktop/home/prefix-search.png" alt="search"
+              class="right-2 top-1/2 opacity-60 absolute h-5 -translate-y-1/2 pointer-events-none">
+          </div>
+        </div>
+
+        <!-- 2. Nhà quảng cáo → RADIO BUTTON CUSTOM -->
+        <div>
+          <p class="mb-3 text-base text-gray-700">Nhà quảng cáo</p>
+          <div class="space-y-3">
+            <!-- Tất cả -->
+            <label class="flex items-center cursor-pointer select-none">
+              <input type="radio" name="kyc" value="all" checked class="peer hidden">
+              <span class="radio-custom mr-3"></span>
+              <span class="text-sm text-gray-700">Tất cả</span>
+            </label>
+
+            <!-- Đã KYC -->
+            <label class="flex items-center cursor-pointer select-none">
+              <input type="radio" name="kyc" value="verified" class="peer hidden">
+              <span class="radio-custom mr-3"></span>
+              <span class="text-sm text-gray-700">Đã KYC</span>
+            </label>
+
+            <!-- Chưa KYC -->
+            <label class="flex items-center cursor-pointer select-none">
+              <input type="radio" name="kyc" value="not-verified" class="peer hidden">
+              <span class="radio-custom mr-3"></span>
+              <span class="text-sm text-gray-700">Chưa KYC</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 3. Nút hành động -->
+        <div class="flex gap-6 pt-3">
+          <button id="reset-filter"
+            class="hover:bg-gray-200 flex-1 py-3 font-medium text-gray-700 transition bg-gray-100 rounded-lg">
+            Đặt lại
+          </button>
+          <button id="apply-filter"
+            class="flex-1 py-3 rounded-lg font-medium text-white bg-[#570080] hover:bg-[#450062] transition">
+            Xác nhận
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- LiveChat Button -->
   <div style="box-shadow: rgba(0,0,0,0.125) 0px 0.36px 0.94px -1px, rgba(0,0,0,0.18) 0px 3px 7.8px -2px;"
-    class="w-[60px] h-[60px] flex rounded-full justify-center items-center text-white bg-[#6936BD] fixed bottom-4 right-4">
+    class="w-[60px] h-[60px] flex rounded-full justify-center items-center text-white bg-[#6936BD] fixed bottom-4 right-4 z-50">
     <button type="button" aria-label="Mở widget trò chuyện LiveChat">
       <svg viewBox="0 0 32 32" class="w-8 h-8">
         <path fill="#6936BD" stroke="#fff" stroke-width="5"
@@ -463,7 +781,6 @@
       }
     }
   </script>
-
 
   <script>
     const data = {
@@ -1172,7 +1489,7 @@
     document.querySelectorAll('.nav-item').forEach(li => {
       li.addEventListener('click', (e) => {
         e.preventDefault();
-        const coin = li.id; // Lấy ID từ <li id="KDG">
+        const coin = li.id;
 
         document.querySelectorAll('.nav-item').forEach(item => {
           item.querySelector('.nav-link').classList.remove('border-b-2', 'border-[#850c95]');
@@ -1186,7 +1503,7 @@
     });
 
     document.getElementById('refresh-btn')?.addEventListener('click', renderP2PList);
-
+    renderP2PList();
     document.querySelectorAll(".accordion-header").forEach(header => {
       header.addEventListener("click", () => {
         const content = header.nextElementSibling;
@@ -1221,8 +1538,117 @@
       document.getElementById("sell-crypto-tab").classList.remove("bg-[#f3f0f4]", "text-[#1a181b]");
     }
 
-    renderP2PList();
+    const btnMenu = document.querySelector('.btn-menu');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const drawerPanel = document.getElementById('drawer-panel');
+    const closeDrawer = document.getElementById('close-drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+
+    btnMenu.addEventListener('click', () => {
+      mobileDrawer.classList.remove('hidden');
+      setTimeout(() => {
+        drawerPanel.classList.remove('-translate-x-full');
+        drawerPanel.classList.add('translate-x-0');
+      }, 10);
+    });
+
+    const closeDrawerFunc = () => {
+      drawerPanel.classList.remove('translate-x-0');
+      drawerPanel.classList.add('-translate-x-full');
+      setTimeout(() => {
+        mobileDrawer.classList.add('hidden');
+      }, 300);
+    };
+
+    closeDrawer.addEventListener('click', closeDrawerFunc);
+    drawerOverlay.addEventListener('click', closeDrawerFunc);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !mobileDrawer.classList.contains('hidden')) {
+        closeDrawerFunc();
+      }
+    });
+
+    const langButton = document.querySelector('.icon-language');
+    const langModal = document.getElementById('language-modal');
+    const langPanel = document.getElementById('lang-panel');
+    const closeLang = document.getElementById('close-lang');
+    const langOverlay = document.getElementById('lang-overlay');
+
+    langButton?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langModal.classList.remove('hidden');
+      setTimeout(() => {
+        langPanel.classList.remove('translate-y-full');
+        langPanel.classList.add('translate-y-0.5');
+      }, 10);
+    });
+
+    const closeLangModal = () => {
+      langPanel.classList.remove('translate-y-0.5');
+      langPanel.classList.add('translate-y-full');
+      setTimeout(() => {
+        langModal.classList.add('hidden');
+      }, 300);
+    };
+
+    closeLang?.addEventListener('click', closeLangModal);
+    langOverlay?.addEventListener('click', closeLangModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !langModal.classList.contains('hidden')) {
+        closeLangModal();
+      }
+    });
+
+    const openModal = (modalId, panelId) => {
+      const modal = document.getElementById(modalId);
+      const panel = document.getElementById(panelId);
+      modal.classList.remove('hidden');
+      setTimeout(() => panel.classList.replace('translate-y-full', 'translate-y-0'), 10);
+    };
+
+    const closeModal = (modalId, panelId) => {
+      const panel = document.getElementById(panelId);
+      panel.classList.replace('translate-y-0', 'translate-y-full');
+      setTimeout(() => document.getElementById(modalId).classList.add('hidden'), 300);
+    };
+
+    const closeOnAnyButton = (modalId, panelId) => {
+      document.querySelectorAll(`#${modalId} button`).forEach(btn => {
+        btn.addEventListener('click', () => closeModal(modalId, panelId));
+      });
+    };
+
+    document.getElementById('open-sort')?.addEventListener('click', () => openModal('sort-modal', 'sort-panel'));
+    document.getElementById('close-sort')?.addEventListener('click', () => closeModal('sort-modal', 'sort-panel'));
+    document.getElementById('sort-overlay')?.addEventListener('click', () => closeModal('sort-modal', 'sort-panel'));
+    closeOnAnyButton('sort-modal', 'sort-panel');
+
+    document.getElementById('open-refresh')?.addEventListener('click', () => openModal('refresh-modal', 'refresh-panel'));
+    document.getElementById('close-refresh')?.addEventListener('click', () => closeModal('refresh-modal', 'refresh-panel'));
+    document.getElementById('refresh-overlay')?.addEventListener('click', () => closeModal('refresh-modal', 'refresh-panel'));
+    closeOnAnyButton('refresh-modal', 'refresh-panel');
+
+    document.getElementById('open-filter')?.addEventListener('click', () => openModal('filter-modal', 'filter-panel'));
+    document.getElementById('close-filter')?.addEventListener('click', () => closeModal('filter-modal', 'filter-panel'));
+    document.getElementById('filter-overlay')?.addEventListener('click', () => closeModal('filter-modal', 'filter-panel'));
+
+    document.getElementById('apply-filter')?.addEventListener('click', () => closeModal('filter-modal', 'filter-panel'));
+    document.getElementById('reset-filter')?.addEventListener('click', () => closeModal('filter-modal', 'filter-panel'));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        ['sort', 'refresh', 'filter'].forEach(type => {
+          const modal = document.getElementById(type + '-modal');
+          if (modal && !modal.classList.contains('hidden')) {
+            closeModal(type + '-modal', type + '-panel');
+          }
+        });
+      }
+    });
   </script>
+
 </body>
 
 </html>

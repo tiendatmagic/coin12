@@ -70,6 +70,43 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+
+    .radio-custom {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      background: white;
+    }
+
+    .radio-custom::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: #570080;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.2s ease;
+    }
+
+    .peer:checked+.radio-custom {
+      border-color: #570080;
+      background: #faf5ff;
+    }
+
+    .peer:checked+.radio-custom::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .peer:focus-visible+.radio-custom {
+      box-shadow: 0 0 0 3px rgba(87, 0, 128, 0.2);
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -230,13 +267,20 @@
               </a></li>
           </div>
         </div>
+
         <div class="right lg:hidden flex mt-5">
-          <img src="https://coin12.com/assets/images/components/mobile/home/icon-sort.svg" alt="sort" width="auto"
-            height="auto" class="sort ml-0 max-w-[5.6vw]">
-          <img src="https://coin12.com/assets/images/components/mobile/home/refresh.svg" alt="refresh" width="auto"
-            height="auto" class="refresh ml-5 max-w-[5.6vw]">
-          <img src="https://coin12.com/assets/images/components/mobile/home/filter.svg" alt="filter" width="auto"
-            height="auto" class="filter ml-5 max-w-[5.6vw]">
+          <div id="open-sort" class="cursor-pointer">
+            <img src="https://coin12.com/assets/images/components/mobile/home/icon-sort.svg" alt="sort"
+              class="max-w-[5.6vw]">
+          </div>
+          <div id="open-refresh" class="ml-5 cursor-pointer">
+            <img src="https://coin12.com/assets/images/components/mobile/home/refresh.svg" alt="refresh"
+              class="max-w-[5.6vw]">
+          </div>
+          <div id="open-filter" class="ml-5 cursor-pointer">
+            <img src="https://coin12.com/assets/images/components/mobile/home/filter.svg" alt="filter"
+              class="max-w-[5.6vw]">
+          </div>
         </div>
       </div>
     </div>
@@ -510,7 +554,7 @@
 
     <!-- Modal Panel - Slide Up -->
     <div id="lang-panel"
-      class="absolute bottom-0 left-0 right-0 bg-[#fafafa] rounded-t-3xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out max-h-[80vh] overflow-y-auto">
+      class="absolute bottom-0 left-0 right-0 bg-[#fafafa] rounded-t-2xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out max-h-[80vh] overflow-y-auto">
 
       <!-- Header -->
       <div class="flex items-center justify-between px-4 py-3 h-[18.13vw] border-b border-[#f3f0f4]">
@@ -562,6 +606,157 @@
     </div>
   </div>
 
+  <!-- Mobile Sort, Refresh, Filter Modals -->
+
+  <!-- 1. SORT MODAL (ĐÃ SỬA LỖI) -->
+  <div id="sort-modal" class="fixed inset-0 z-[40] hidden">
+    <div id="sort-overlay" class="bg-opacity-40 absolute inset-0 bg-black"></div>
+    <div id="sort-panel"
+      class="absolute bottom-0 left-0 right-0 bg-[#fafafa] rounded-t-2xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between px-4 pt-5 pb-5 border-b border-gray-200">
+        <h3 class="text-base font-bold text-gray-900">Sắp xếp theo</h3>
+        <button id="close-sort" class="hover:text-gray-700 text-gray-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="pb-8 space-y-0" id="sort-options">
+        <button
+          class="border-b border-gray-200 sort-option w-full text-left px-4 py-4 bg-[#f4e4f3] text-gray-700  text-sm">Mặc
+          định</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Giá</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Số
+          lượng giao
+          dịch</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Tỉ
+          lệ hoàn
+          tất</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Đánh
+          giá tích
+          cực</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Thời
+          gian
+          hoàn tất</button>
+        <button
+          class="sort-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">Nhà
+          quảng cáo
+          trực tuyến</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. REFRESH MODAL (ĐÃ SỬA LỖI) -->
+  <div id="refresh-modal" class="fixed inset-0 z-[40] hidden">
+    <div id="refresh-overlay" class="bg-opacity-40 absolute inset-0 bg-black"></div>
+    <div id="refresh-panel"
+      class="rounded-t-2xl absolute bottom-0 left-0 right-0 transition-transform duration-300 ease-out transform translate-y-full bg-[#fafafa] shadow-2xl">
+      <div class="flex items-center justify-between px-4 pt-5 pb-5 border-b border-gray-200">
+        <h3 class="text-base font-bold text-gray-900">Làm mới</h3>
+        <button id="close-refresh" class="hover:text-gray-700 text-gray-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="pb-8 space-y-0" id="refresh-options">
+        <button
+          class="refresh-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">
+          Ngay lập tức
+        </button>
+        <button
+          class="refresh-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">
+          Mỗi 5s
+        </button>
+        <button
+          class="refresh-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">
+          Mỗi 10s
+        </button>
+        <button
+          class="refresh-option hover:bg-purple-50 w-full px-4 py-4 text-sm text-left text-gray-700 border-b border-gray-200">
+          Mỗi 30s
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. FILTER MODAL – RADIO BUTTON CUSTOM #570080 -->
+  <div id="filter-modal" class="fixed inset-0 z-[40] hidden">
+    <div id="filter-overlay" class="bg-opacity-40 absolute inset-0 bg-black"></div>
+    <div id="filter-panel"
+      class="absolute bottom-0 left-0 right-0 bg-[#fafafa] rounded-t-2xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between px-4 pt-4 pb-5 border-b border-gray-200">
+        <h3 class="text-base font-bold text-gray-900">Bộ lọc</h3>
+        <button id="close-filter" class="hover:text-gray-700 text-gray-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="px-3 py-5 space-y-6">
+
+        <!-- 1. Số lượng – VND + Icon bên phải -->
+        <div class="search-amount">
+          <label class="block mb-2 text-xs text-gray-700">Số lượng</label>
+          <div class="base-input__wrap relative">
+            <input type="tel" placeholder="Nhập số lượng" maxlength="15"
+              class="w-full pl-4 pr-16 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#570080] focus:ring-2 focus:ring-purple-200 text-left"
+              style="direction: rtl;">
+
+            <!-- Icon tìm kiếm -->
+            <img src="https://coin12.com/assets/images/components/desktop/home/prefix-search.png" alt="search"
+              class="right-2 top-1/2 opacity-60 absolute h-5 -translate-y-1/2 pointer-events-none">
+          </div>
+        </div>
+
+        <!-- 2. Nhà quảng cáo → RADIO BUTTON CUSTOM -->
+        <div>
+          <p class="mb-3 text-base text-gray-700">Nhà quảng cáo</p>
+          <div class="space-y-3">
+            <!-- Tất cả -->
+            <label class="flex items-center cursor-pointer select-none">
+              <input type="radio" name="kyc" value="all" checked class="peer hidden">
+              <span class="radio-custom mr-3"></span>
+              <span class="text-sm text-gray-700">Tất cả</span>
+            </label>
+
+            <!-- Đã KYC -->
+            <label class="flex items-center cursor-pointer select-none">
+              <input type="radio" name="kyc" value="verified" class="peer hidden">
+              <span class="radio-custom mr-3"></span>
+              <span class="text-sm text-gray-700">Đã KYC</span>
+            </label>
+
+            <!-- Chưa KYC -->
+            <label class="flex items-center cursor-pointer select-none">
+              <input type="radio" name="kyc" value="not-verified" class="peer hidden">
+              <span class="radio-custom mr-3"></span>
+              <span class="text-sm text-gray-700">Chưa KYC</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 3. Nút hành động -->
+        <div class="flex gap-6 pt-3">
+          <button id="reset-filter"
+            class="hover:bg-gray-200 flex-1 py-3 font-medium text-gray-700 transition bg-gray-100 rounded-lg">
+            Đặt lại
+          </button>
+          <button id="apply-filter"
+            class="flex-1 py-3 rounded-lg font-medium text-white bg-[#570080] hover:bg-[#450062] transition">
+            Xác nhận
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- LiveChat Button -->
   <div style="box-shadow: rgba(0,0,0,0.125) 0px 0.36px 0.94px -1px, rgba(0,0,0,0.18) 0px 3px 7.8px -2px;"
     class="w-[60px] h-[60px] flex rounded-full justify-center items-center text-white bg-[#6936BD] fixed bottom-4 right-4 z-50">
@@ -586,7 +781,6 @@
       }
     }
   </script>
-
 
   <script>
     const data = {
@@ -1295,7 +1489,7 @@
     document.querySelectorAll('.nav-item').forEach(li => {
       li.addEventListener('click', (e) => {
         e.preventDefault();
-        const coin = li.id; // Lấy ID từ <li id="KDG">
+        const coin = li.id;
 
         document.querySelectorAll('.nav-item').forEach(item => {
           item.querySelector('.nav-link').classList.remove('border-b-2', 'border-[#850c95]');
@@ -1309,7 +1503,7 @@
     });
 
     document.getElementById('refresh-btn')?.addEventListener('click', renderP2PList);
-
+    renderP2PList();
     document.querySelectorAll(".accordion-header").forEach(header => {
       header.addEventListener("click", () => {
         const content = header.nextElementSibling;
@@ -1344,14 +1538,12 @@
       document.getElementById("sell-crypto-tab").classList.remove("bg-[#f3f0f4]", "text-[#1a181b]");
     }
 
-    // Drawer Controls
     const btnMenu = document.querySelector('.btn-menu');
     const mobileDrawer = document.getElementById('mobile-drawer');
     const drawerPanel = document.getElementById('drawer-panel');
     const closeDrawer = document.getElementById('close-drawer');
     const drawerOverlay = document.getElementById('drawer-overlay');
 
-    // Mở drawer
     btnMenu.addEventListener('click', () => {
       mobileDrawer.classList.remove('hidden');
       setTimeout(() => {
@@ -1360,7 +1552,6 @@
       }, 10);
     });
 
-    // Đóng drawer khi bấm nút X hoặc overlay
     const closeDrawerFunc = () => {
       drawerPanel.classList.remove('translate-x-0');
       drawerPanel.classList.add('-translate-x-full');
@@ -1372,21 +1563,18 @@
     closeDrawer.addEventListener('click', closeDrawerFunc);
     drawerOverlay.addEventListener('click', closeDrawerFunc);
 
-    // Đóng khi nhấn Esc
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !mobileDrawer.classList.contains('hidden')) {
         closeDrawerFunc();
       }
     });
 
-    // Language Modal Controls
     const langButton = document.querySelector('.icon-language');
     const langModal = document.getElementById('language-modal');
     const langPanel = document.getElementById('lang-panel');
     const closeLang = document.getElementById('close-lang');
     const langOverlay = document.getElementById('lang-overlay');
 
-    // Mở modal
     langButton?.addEventListener('click', (e) => {
       e.stopPropagation();
       langModal.classList.remove('hidden');
@@ -1396,7 +1584,6 @@
       }, 10);
     });
 
-    // Đóng modal
     const closeLangModal = () => {
       langPanel.classList.remove('translate-y-0.5');
       langPanel.classList.add('translate-y-full');
@@ -1408,14 +1595,58 @@
     closeLang?.addEventListener('click', closeLangModal);
     langOverlay?.addEventListener('click', closeLangModal);
 
-    // Đóng khi nhấn Esc
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !langModal.classList.contains('hidden')) {
         closeLangModal();
       }
     });
 
-    renderP2PList();
+    const openModal = (modalId, panelId) => {
+      const modal = document.getElementById(modalId);
+      const panel = document.getElementById(panelId);
+      modal.classList.remove('hidden');
+      setTimeout(() => panel.classList.replace('translate-y-full', 'translate-y-0'), 10);
+    };
+
+    const closeModal = (modalId, panelId) => {
+      const panel = document.getElementById(panelId);
+      panel.classList.replace('translate-y-0', 'translate-y-full');
+      setTimeout(() => document.getElementById(modalId).classList.add('hidden'), 300);
+    };
+
+    const closeOnAnyButton = (modalId, panelId) => {
+      document.querySelectorAll(`#${modalId} button`).forEach(btn => {
+        btn.addEventListener('click', () => closeModal(modalId, panelId));
+      });
+    };
+
+    document.getElementById('open-sort')?.addEventListener('click', () => openModal('sort-modal', 'sort-panel'));
+    document.getElementById('close-sort')?.addEventListener('click', () => closeModal('sort-modal', 'sort-panel'));
+    document.getElementById('sort-overlay')?.addEventListener('click', () => closeModal('sort-modal', 'sort-panel'));
+    closeOnAnyButton('sort-modal', 'sort-panel');
+
+    document.getElementById('open-refresh')?.addEventListener('click', () => openModal('refresh-modal', 'refresh-panel'));
+    document.getElementById('close-refresh')?.addEventListener('click', () => closeModal('refresh-modal', 'refresh-panel'));
+    document.getElementById('refresh-overlay')?.addEventListener('click', () => closeModal('refresh-modal', 'refresh-panel'));
+    closeOnAnyButton('refresh-modal', 'refresh-panel');
+
+    document.getElementById('open-filter')?.addEventListener('click', () => openModal('filter-modal', 'filter-panel'));
+    document.getElementById('close-filter')?.addEventListener('click', () => closeModal('filter-modal', 'filter-panel'));
+    document.getElementById('filter-overlay')?.addEventListener('click', () => closeModal('filter-modal', 'filter-panel'));
+
+    document.getElementById('apply-filter')?.addEventListener('click', () => closeModal('filter-modal', 'filter-panel'));
+    document.getElementById('reset-filter')?.addEventListener('click', () => closeModal('filter-modal', 'filter-panel'));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        ['sort', 'refresh', 'filter'].forEach(type => {
+          const modal = document.getElementById(type + '-modal');
+          if (modal && !modal.classList.contains('hidden')) {
+            closeModal(type + '-modal', type + '-panel');
+          }
+        });
+      }
+    });
   </script>
 
 </body>
