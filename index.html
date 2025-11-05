@@ -501,14 +501,14 @@
       <div class="text-left">
         <h5 class="text-[#570080] text-lg mb-2 uppercase font-medium">Điều khoản</h5>
         <ul>
-          <li><a href="/terms" class="text-sm">Điều khoản sử dụng</a></li>
-          <li><a href="/privacy" class="text-sm">Chính sách bảo mật</a></li>
+          <li><a href="/" class="text-sm">Điều khoản sử dụng</a></li>
+          <li><a href="/" class="text-sm">Chính sách bảo mật</a></li>
         </ul>
       </div>
       <div class="text-left">
         <h5 class="text-[#570080] text-lg mb-2 uppercase font-medium">Hỗ trợ</h5>
         <ul>
-          <li><a href="/faqs" class="text-sm">FAQs</a></li>
+          <li><a href="/" class="text-sm">FAQs</a></li>
         </ul>
       </div>
       <div class="text-left">
@@ -526,23 +526,33 @@
       <button class="accordion-header flex items-center justify-between w-full p-2 text-left"><span
           class="font-medium">Dịch vụ</span><span class="accordion-icon">+</span></button>
       <div class="accordion-content max-h-0 px-4 overflow-hidden transition-all duration-300">
-        <p class="py-2 pl-2 text-gray-700">Giao dịch P2P</p>
+        <p class="py-2 pl-2">
+          <a href="/" class="text-gray-700">Giao dịch P2P</a>
+        </p>
       </div>
     </div>
     <div class="mt-2 rounded">
       <button class="accordion-header flex items-center justify-between w-full p-2 text-left"><span
           class="font-medium">Điều khoản</span><span class="accordion-icon">+</span></button>
       <div class="accordion-content max-h-0 px-4 overflow-hidden transition-all duration-300">
-        <p class="py-2 pl-2 text-gray-700">Điều khoản sử dụng</p>
-        <p class="py-2 pl-2 mt-3 text-gray-700">Chính sách bảo mật</p>
+        <p class="py-2 pl-2 text-gray-700">
+          <a href="/" class="text-gray-700">Điều khoản sử dụng</a>
+        </p>
+        <p class="py-2 pl-2 mt-3 text-gray-700">
+          <a href="/" class="text-gray-700">Chính sách bảo mật</a>
+        </p>
       </div>
     </div>
     <div class="mt-2 rounded">
       <button class="accordion-header flex items-center justify-between w-full p-2 text-left"><span
           class="font-medium">Hỗ trợ</span><span class="accordion-icon">+</span></button>
       <div class="accordion-content max-h-0 px-4 overflow-hidden transition-all duration-300">
-        <p class="py-2 pl-2 text-gray-700">FAQs</p>
-        <p class="py-2 pl-2 mt-3 text-gray-700">support@coin12.com</p>
+        <p class="py-2 pl-2 text-gray-700">
+          <a href="/" class="text-gray-700">FAQs</a>
+        </p>
+        <p class="py-2 pl-2 mt-3 text-gray-700">
+          <a href="mailto:support@coin12.com" class="text-gray-700">support@coin12.com</a>
+        </p>
       </div>
     </div>
   </div>
@@ -1569,38 +1579,6 @@
       }
     });
 
-    const langButton = document.querySelector('.icon-language');
-    const langModal = document.getElementById('language-modal');
-    const langPanel = document.getElementById('lang-panel');
-    const closeLang = document.getElementById('close-lang');
-    const langOverlay = document.getElementById('lang-overlay');
-
-    langButton?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      langModal.classList.remove('hidden');
-      setTimeout(() => {
-        langPanel.classList.remove('translate-y-full');
-        langPanel.classList.add('translate-y-0.5');
-      }, 10);
-    });
-
-    const closeLangModal = () => {
-      langPanel.classList.remove('translate-y-0.5');
-      langPanel.classList.add('translate-y-full');
-      setTimeout(() => {
-        langModal.classList.add('hidden');
-      }, 300);
-    };
-
-    closeLang?.addEventListener('click', closeLangModal);
-    langOverlay?.addEventListener('click', closeLangModal);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !langModal.classList.contains('hidden')) {
-        closeLangModal();
-      }
-    });
-
     const openModal = (modalId, panelId) => {
       const modal = document.getElementById(modalId);
       const panel = document.getElementById(panelId);
@@ -1646,6 +1624,41 @@
           }
         });
       }
+    });
+
+    const langModal = document.getElementById('language-modal');
+    const langPanel = document.getElementById('lang-panel');
+
+    document.querySelector('.icon-language')?.addEventListener('click', e => {
+      e.stopPropagation();
+      langModal.classList.remove('hidden');
+      setTimeout(() => langPanel.classList.replace('translate-y-full', 'translate-y-0'), 10);
+    });
+
+    const closeLang = () => {
+      langPanel.classList.replace('translate-y-0', 'translate-y-full');
+      setTimeout(() => langModal.classList.add('hidden'), 300);
+    };
+
+    document.getElementById('close-lang')?.addEventListener('click', closeLang);
+    document.getElementById('lang-overlay')?.addEventListener('click', closeLang);
+
+    document.querySelectorAll('#language-modal .lang-item').forEach(item => {
+      item.addEventListener('click', function () {
+
+        this.classList.add('selected');
+        this.insertAdjacentHTML('beforeend', `
+        <svg class="right-4 top-1/2 absolute w-6 h-6 text-white -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+        </svg>
+      `);
+
+        closeLang();
+      });
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !langModal.classList.contains('hidden')) closeLang();
     });
   </script>
 
